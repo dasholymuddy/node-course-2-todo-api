@@ -56,6 +56,29 @@ app.get('/todos/:id', (req, res) => {
 
 });
 
+app.delete('/todos/:id', (req, res) => {
+  // get the id
+  var id = req.params.id
+
+  // validate the id -> not valid? return 404
+  if(!ObjectID.isValid(id)) {
+    res.status(404).send();
+    return console.log('ID not valid, yo.');
+  }
+
+  // remove todo by id
+  Todo.findByIdAndRemove(id).then((todo) => {
+    // if no todo send 404 with emtpy body
+    if(!todo) {
+      res.status(404).send();
+      return console.log ('ID not found');
+    }
+    // if todo send back todo
+    res.send({todo});
+  }, (e) => {
+    res.status(400).send();
+  });
+});
 
 app.listen(port, () => {
   console.log(`Started on port ${port}`);
