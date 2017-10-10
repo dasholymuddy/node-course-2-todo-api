@@ -39,14 +39,12 @@ app.get('/todos/:id', (req, res) => {
 
   // validate id is legit using isValid. give 404 wsith empty body-parser
   if(!ObjectID.isValid(id)) {
-    res.status(404).send();
-    return console.log('ID not valid, yo.');
+    return res.status(404).send();
   }
   Todo.findById(id).then((todo) => {
     // if no todo send 404 with emtpy body
     if(!todo) {
-      res.status(404).send();
-      return console.log ('ID not found');
+      return res.status(404).send();
     }
     // if todo send back todo
     res.send({todo});
@@ -62,16 +60,14 @@ app.delete('/todos/:id', (req, res) => {
 
   // validate the id -> not valid? return 404
   if(!ObjectID.isValid(id)) {
-    res.status(404).send();
-    return console.log('ID not valid, yo.');
+    return res.status(404).send();
   }
 
   // remove todo by id
   Todo.findByIdAndRemove(id).then((todo) => {
     // if no todo send 404 with emtpy body
     if(!todo) {
-      res.status(404).send();
-      return console.log ('ID not found');
+      return res.status(404).send();
     }
     // if todo send back todo
     res.send({todo});
